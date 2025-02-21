@@ -9,12 +9,12 @@ const nomineeSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
+        default: "",
         lowercase: true, // Converts to lowercase before saving
-        validate: {
-            validator: validator.isEmail,
-            message: "Please enter a valid email address"
-        }
+        // validate: {
+        //     validator: validator.isEmail,
+        //     message: "Please enter a valid email address"
+        // }
     }, 
     type: {
         type: String,
