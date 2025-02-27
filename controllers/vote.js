@@ -44,7 +44,7 @@ async function createVote(req, res) {
         // Save the new vote to the database
         await newVote.save();
         // send the mail after the vote save in the database
-        await mail_service.sendEmail({email});
+        await mail_service.sendEmail({email, user_name});
         // Return success response
         res.status(201).json({ message: "Vote created successfully", vote: newVote });
     } catch (err) {

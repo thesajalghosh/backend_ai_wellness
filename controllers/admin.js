@@ -13,7 +13,7 @@ async function getNomineeByType(req, res) {
         const { name } = req.query; // Extract name from query parameter
 
         // Validate category type
-        const validCategories = ["fitness", "clinics", "forward_thinker", "innovations"];
+        const validCategories = ["fitness", "clinics", "forward_thinker", "innovations","original_geniuses"];
         if (!validCategories.includes(category_type)) {
             return res.status(400).json({ message: "Invalid category type" });
         }

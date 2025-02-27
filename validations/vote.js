@@ -2,10 +2,10 @@ const Joi = require("joi");
 
 const voteSchema = Joi.object({
     category_type: Joi.string()
-        .valid("forward_thinker", "fitness", "clinics", "innovations")
+        .valid("forward_thinker", "fitness", "clinics", "innovations","original_geniuses")
         .required()
         .messages({
-            "any.only": "Category type must be one of: forward_thinker, fitness, clinics, or innovations",
+            "any.only": "Category type must be one of: forward_thinker, fitness, clinics, innovations or original_geniuses" ,
             "any.required": "Category type is required",
         }),
     vote_to: Joi.string()
