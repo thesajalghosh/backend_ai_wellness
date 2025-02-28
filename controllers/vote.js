@@ -3,6 +3,12 @@ const Vote = require("../models/vote");
 const Nominee = require("../models/nominee");
 const mail_service = require('../mail_service')
 
+/**
+ * Function to vote a nominee
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 async function createVote(req, res) {
     try {
         const { category_type, vote_to, user_name, email, phone_no, rating_1, rating_2, rating_3, rating_4, nominee_reason, rec_nominee, justification } = req.body;
