@@ -95,8 +95,33 @@ async function getUserVotingData(req, res) {
     }
 }
 
+/**
+ * Get the nominee details by name
+ */
+async function getNomineeDetailsByName(req,res){
+    try{
+        const {category_type, nominee_name} = req.params;
+        // Validate required fields
+        if (!category_type || !nominee_name) {
+            return res.status(400).json({ message: "Type and Name are required" });
+        }
+        // Fetch nominee details based on type and nominee name
+        const nominee = await Nominee.findOne({ type: category_type, name: nominee_name });
+        // Check if nominee exists
+        if (!nominee) {
+            return res.status(404).json({ message: "No nominee found for this category" });
+        }
+        // Return the nominee details
+        res.status(200).json(nominee);
+    }catch(error){
+        console.error("Error fetching nominee details by name:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
 module.exports = {
     getNomineeByType,
     getAllVoterList,
-    getUserVotingData
+    getUserVotingData,
+    getNomineeDetailsByName
 };
