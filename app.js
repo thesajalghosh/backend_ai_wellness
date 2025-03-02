@@ -14,6 +14,7 @@ app.use(cors());
 app.get("/api/test", (req, res) => {
     res.json({ message: "CORS is working!" });
 });
+//hello
 
 
 // for Vote Routes
