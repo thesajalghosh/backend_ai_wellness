@@ -1,13 +1,13 @@
-const Joi = require("joi");
+const validateRequest = (schema) => (req, res, next) => {
+    const { error, value } = schema.validate(req.body);
 
-const validateRequest = (schema) => {
-    return (req, res, next) => {
-        const { error } = schema.validate(req.body, { abortEarly: false }); // Validate the request body
-        if (error) {
-            return res.status(400).json({ message: error.details.map(err => err.message) });
-        }
-        next(); // Proceed to the next middleware/controller if validation passes
-    };
+    if (error) {
+        return res.status(400).json({ message: error.details[0].message });
+    }
+
+    // Overwrite req.body with the validated and trimmed data
+    req.body = value;
+    next();
 };
 
 module.exports = validateRequest;

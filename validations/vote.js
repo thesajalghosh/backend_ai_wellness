@@ -20,6 +20,7 @@ const voteSchema = Joi.object({
     user_name: Joi.string()
         .min(2)
         .max(50)
+        .trim()
         .required()
         .messages({
             "string.min": "User name must be at least 2 characters",
@@ -28,6 +29,7 @@ const voteSchema = Joi.object({
         }),
     email: Joi.string()
         .email()
+        .trim()
         .required()
         .messages({
             "string.email": "Invalid email format",

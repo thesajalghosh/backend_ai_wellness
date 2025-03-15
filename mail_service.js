@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config(); // Load environment variables
 
-const sendEmail = async ({email,user_name}) => {
+const sendEmail = async ({email,user_name, nominee_image}) => {
   try {
     console.log("call...........111111111111")
     console.log("user_name",user_name)
@@ -31,6 +31,10 @@ const sendEmail = async ({email,user_name}) => {
               <p>Dear ${user_name},</p>
               
               <h2>Your vote has been counted! </h2>
+
+              <div style="text-align: center;">
+                  <img src=${nominee_image} alt="Thank You" style="width: 150px; height: auto;">
+              </div>
               
               <p>Thank you for being part of the <strong>Angels of Alignment Initiative</strong> and helping to select the pioneers shaping the future of AI-driven wellness, longevity, and human optimization.</p>
               
@@ -53,7 +57,7 @@ const sendEmail = async ({email,user_name}) => {
               <p><strong>The AI Wellness Team</strong><br>
                AI Wellness Platinum Network<br>
                <strong>Voting Closes:</strong> May 15, 2025<br>
-               <a href="#" style="color: blue; text-decoration: none;">Vote Again Here</a></p>
+               <a href="https://angelsofalignment.org/vote" style="color: blue; text-decoration: none;" target="_blank">Vote Again Here</a>
               
               <p><strong>P.S.</strong> Eliminations start <strong>March 1</strong>! Keep your favorite nominees in the race by voting weekly! </p>
           </body>

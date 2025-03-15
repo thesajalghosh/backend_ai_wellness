@@ -32,6 +32,7 @@ async function createVote(req, res) {
         if (!nominee) {
             return res.status(404).json({ message: "Nominee not found." });
         }
+        console.log("obj---", { user_name, email})
         // Create a new vote record
         const newVote = new Vote({
             category_type,
@@ -47,10 +48,11 @@ async function createVote(req, res) {
             rec_nominee,
             justification
         });
+        console.log("newVote----", newVote)
         // Save the new vote to the database
         await newVote.save();
         // send the mail after the vote save in the database
-        await mail_service.sendEmail({email, user_name});
+        await mail_service.sendEmail({email, user_name , nominee_image: nominee?.image_path});
         // Return success response
         res.status(201).json({ message: "Vote created successfully", vote: newVote });
     } catch (err) {
