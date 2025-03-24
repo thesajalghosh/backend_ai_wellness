@@ -119,9 +119,48 @@ async function getNomineeDetailsByName(req,res){
     }
 }
 
+/**
+ * Function to get the nominees by time basis
+ * @param {String} category_type - category type
+ * @param {String} filter_by_time - time filter ['last_one_hour','last_twelve_hour','last_twenty_four_hour','last_week']
+ */
+async function getNomineesByTimeBasis(req, res) {
+    try {
+        const { category_type, filter_by_time } = req.params;
+
+        let filter = { type: category_type }; // Base filter with category
+
+        // taking the current date
+        const now = new Date();
+
+        if (filter_by_time === "last_one_hour") {
+            const oneHourAgo = new Date(now - 60 * 60 * 1000);
+            filter.updatedAt = { $gte: oneHourAgo, $lte: now };
+        } else if (filter_by_time === "last_twelve_hour") {
+            const twelveHoursAgo = new Date(now - 12 * 60 * 60 * 1000);
+            filter.updatedAt = { $gte: twelveHoursAgo, $lte: now };
+        } else if (filter_by_time === "last_twenty_four_hour") {
+            const twentyFourHoursAgo = new Date(now - 24 * 60 * 60 * 1000);
+            filter.updatedAt = { $gte: twentyFourHoursAgo, $lte: now };
+        } else if (filter_by_time === "last_week") {
+            const oneWeekAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
+            filter.updatedAt = { $gte: oneWeekAgo, $lte: now };
+        }
+       
+        // get the nominees based on the filter 
+        const nominees = await Nominee.find(filter).sort({ createdAt: -1 });
+        
+        res.status(200).json({ success: true, data: nominees });
+    } catch (error) {
+        console.error("Error fetching nominee details by time:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
 module.exports = {
     getNomineeByType,
     getAllVoterList,
     getUserVotingData,
-    getNomineeDetailsByName
+    getNomineeDetailsByName,
+    getNomineesByTimeBasis
 };
