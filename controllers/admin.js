@@ -148,7 +148,7 @@ async function getNomineesByTimeBasis(req, res) {
         }
        
         // get the nominees based on the filter 
-        const nominees = await Nominee.find(filter).sort({ createdAt: -1 });
+        const nominees = await Nominee.find(filter).sort({ vote_count: -1  });
         
         res.status(200).json({ success: true, data: nominees });
     } catch (error) {
