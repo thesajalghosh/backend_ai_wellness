@@ -150,7 +150,7 @@ async function getNomineesByTimeBasis(req, res) {
         // get the nominees based on the filter 
         const nominees = await Nominee.find(filter).sort({ vote_count: -1  });
         
-        res.status(200).json({ success: true, data: nominees });
+        res.status(200).json(nominees);
     } catch (error) {
         console.error("Error fetching nominee details by time:", error);
         res.status(500).json({ message: "Internal server error" });
