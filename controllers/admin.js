@@ -82,7 +82,7 @@ async function getUserVotingData(req, res) {
         const vote = await Vote.findOne({
             category_type: category_type,
             vote_to: nominee_name,
-            user_name: user_name
+            user_name: user_name.trim()
         });        
         // Check if the vote record exists
         if (!vote) {
