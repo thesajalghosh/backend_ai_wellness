@@ -167,7 +167,7 @@ async function getVoterListByTimeBasis(req, res) {
     try {
         const { category_type, filter_by_time , nominee_name} = req.params;
 
-        let filter = { category_type: category_type, vote_to: nominee_name }; // Base filter with category
+        let filter = { category_type: category_type, vote_to: nominee_name ? nominee_name.trim() : '' }; // Base filter with category
 
         // taking the current date
         const now = new Date();
