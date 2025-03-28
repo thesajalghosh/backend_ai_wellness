@@ -42,8 +42,8 @@ async function getNominees(req, res) {
  */
 async function createNominees(req,res){
     try {
-        const voters = await Nominee.insertMany(req.body); // Insert array of objects
-        res.status(201).json({ message: "Voters added", voters });
+        const nominees = await Nominee.insertMany(req.body); // Insert array of objects
+        res.status(201).json({ message: "Nominees added", nominees });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

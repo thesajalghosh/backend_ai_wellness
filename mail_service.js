@@ -73,7 +73,65 @@ const sendEmail = async ({email,user_name, nominee_image}) => {
   }
 };
 
+
+/**
+ * Function to send the congratulation mail to the nominee
+ */
+const sendNomineeCongratulationMail = async({email}) => {
+  try {
+    console.log("call...........111111111111")
+    console.log("user_name",user_name)
+      // Configure the SMTP transporter
+      const transporter = nodemailer.createTransport({       // Create a transporter
+        host: process.env.BREVO_SMTP_HOST, // Brevo SMTP host
+        port: process.env.BREVO_SMTP_PORT, // Use 587 for TLS or 465 for SSL
+        secure: false, // False for 587, true for 465
+        auth: {
+          user: process.env.BREVO_SMTP_USER, // Replace with your Brevo email
+          pass: process.env.BREVO_SMTP_PASS, // Replace with your SMTP password
+        },
+      });
+      // Email options
+      const mailOptions = {
+        from: '"AI Wellness" <team@aiwellness.ai>',
+        to: email,
+        subject: "Your Vote is In – Thank You for Shaping the Future of AI Wellness!",
+        html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Congratulations!</title>
+        </head>
+        <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; text-align: center;">
+            <table style="max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+                <tr>
+                    <td style="text-align: center;">
+                        <h1 style="color: #2c3e50;">🎉 Congratulations! 🎉</h1>
+                        <p style="font-size: 16px; color: #555;">We are thrilled to celebrate your achievement! Your hard work and dedication have truly paid off.</p>
+                        <p style="font-size: 16px; color: #555;">Enjoy this moment—you've earned it!</p>
+                        <a href="#" style="display: inline-block; background-color: #3498db; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 15px;">Celebrate Now</a>
+                    </td>
+                </tr>
+            </table>
+        </body>
+      </html>`,
+      };
+      console.log("mailOptions",mailOptions)  
+    // Send the email
+    let info = await transporter.sendMail(mailOptions);
+    console.log("info-------", info)
+    console.log("Email sent: ", info.messageId);
+  } catch (error) {
+    console.error("Error sending email: ", error);
+  }
+}
+
+
+
 module.exports = {
-    sendEmail
+    sendEmail,
+    sendNomineeCongratulationMail
 }
 

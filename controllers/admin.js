@@ -157,10 +157,51 @@ async function getNomineesByTimeBasis(req, res) {
     }
 }
 
+/**
+ * Get the all voters by time basis
+ * @param {String} category_type - category type
+ * @param {String} nominee_name - name of the nominee eho got the vote
+ * @param {String} filter_by_time - time filter ['last_one_hour','last_twelve_hour','last_twenty_four_hour','last_week']
+ */
+async function getVoterListByTimeBasis(req, res) {
+    try {
+        const { category_type, filter_by_time , nominee_name} = req.params;
+
+        let filter = { category_type: category_type, vote_to: nominee_name }; // Base filter with category
+
+        // taking the current date
+        const now = new Date();
+
+        if (filter_by_time === "last_one_hour") {
+            const oneHourAgo = new Date(now - 60 * 60 * 1000);
+            filter.createdAt = { $gte: oneHourAgo, $lte: now };
+        } else if (filter_by_time === "last_twelve_hour") {
+            const twelveHoursAgo = new Date(now - 12 * 60 * 60 * 1000);
+            filter.createdAt = { $gte: twelveHoursAgo, $lte: now };
+        } else if (filter_by_time === "last_twenty_four_hour") {
+            const twentyFourHoursAgo = new Date(now - 24 * 60 * 60 * 1000);
+            filter.createdAt = { $gte: twentyFourHoursAgo, $lte: now };
+        } else if (filter_by_time === "last_week") {
+            const oneWeekAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
+            filter.createdAt = { $gte: oneWeekAgo, $lte: now };
+        }
+       
+        // get the nominees based on the filter 
+        const voters = await Vote.find(filter).sort({ vote_count: -1  });
+        
+        res.status(200).json(voters);
+    } catch (error) {
+        console.error("Error fetching voters detail by time:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+
 module.exports = {
     getNomineeByType,
     getAllVoterList,
     getUserVotingData,
     getNomineeDetailsByName,
-    getNomineesByTimeBasis
+    getNomineesByTimeBasis,
+    getVoterListByTimeBasis
 };
