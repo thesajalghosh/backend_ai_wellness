@@ -62,8 +62,11 @@ async function createVote(req, res) {
         //     await mail_service.sendNomineeCongratulationMail({email: nominee?.email});
         // }
 
+        // send the you got a vote mail to the nominee
+        await mail_service.sendYouGotVoteMailToNominee({email:nominee?.email ,nominee_name:vote_to ,voter_name:user_name ,nomination_category:category_type });
+
         // send the mail after the vote save in the database
-        await mail_service.sendEmail({email, user_name , nominee_image: nominee?.image_path});
+        await mail_service.sendEmailToVoter({email, user_name , nominee_image: nominee?.image_path});
         // Return success response
         res.status(201).json({ message: "Vote created successfully", vote: newVote });
     } catch (err) {
